@@ -1,10 +1,10 @@
 const express = require("express");
-const app = express();
-require("dotenv").config();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const helmet = require("helmet");
+require("dotenv").config();
 
+const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
@@ -14,19 +14,14 @@ mongoose
   .then(() => {
     console.log("Connected to mongoDB Successfully");
   })
-  .catch(() => console.log("Database connection terminated try again!"));
-
-
-
+  .catch((err) =>
+    console.log(err, "Database connection terminated try again!")
+  );
 
 const authRoute = require("./routes/auth");
-const postsRoute = require("./routes/posts");
+const productsRoute = require("./routes/productRoutes");
 
-app.use("/api/user", authRoute);
-app.use("/api/posts", postsRoute);
-
-
-
-
+app.use("/api", authRoute);
+app.use("/api", productsRoute);
 
 app.listen(4000, () => console.log("Server is running on port 4000"));
